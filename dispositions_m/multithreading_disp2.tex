@@ -1,0 +1,44 @@
+\subsection{Dispositionsforslag 2}
+
+\begin{itemize}
+    \item \textbf{Tråde}
+    \begin{itemize}
+        \item Hvad er en Tråd
+        \begin{itemize}
+            \item Producer / Consumer\footnote{En producer tråd laver data, fx læser ord i en fil. Oftest tilføjes denne data til en kø. Consumer tråd bruger denne data, fx lægger antal ord sammen for flere filer. Normalvis venter consumertråden på at der kommer data i køen.}
+        \end{itemize}
+        
+        \item Hvorfor bruge threads
+        \begin{itemize}
+            \item Referer til binomial aflevering, hvor beregningen kunne køres i en separat tråd, så GUIen ikke ville fryse
+            \item Kan benytte alle processorens kerner
+        \end{itemize}
+        
+        \item \textbf{Runnable} - Hvordan laves en tråd
+        \begin{itemize}
+            \item Implementer Runnable interfacet og benyt start() metoden på Thread
+            \item 4 states (new, runnable, blocked, dead) - lav tegning
+        \end{itemize}
+        
+        \item Interrupts - try/catch i run() metoden
+    \end{itemize}
+    
+    \item \textbf{Synkronisering}
+    \begin{itemize}
+        \item \textbf{Race conditions}
+        \item \textbf{Locking}
+        \begin{itemize}
+            \item Eksplicitte locks fra java.util.concurrency (\verb|await()| / \verb|signalAll()|)
+            \item Synchronized keyword (Nemmere at bruge, men mindre fleksible)
+            \item \textbf{Deadlocks og livelocks\footnote{Livelocks er ikke ligeså vigtive som deadlocks, så undlad at snakke om disse hvis du ikke har styr på dem.}}
+        \end{itemize}
+        
+        \item Køer
+        \begin{itemize}
+            \item Udveksling af data mellem tråde
+            \item Benyttes ofte i forbindesle med producer/consumer
+            \item Undgå raceconditions ved at benytte en synkroniseret kø fx LinkedBlockingQueue
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+

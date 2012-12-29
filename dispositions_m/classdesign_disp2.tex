@@ -1,0 +1,36 @@
+\subsection{Dispositionsforslag 2}
+
+\begin{itemize}
+    \item \textbf{Indkapsling}
+    \begin{itemize}
+        \item Regler
+        \item Mutable
+        \item Immutable (klasser uden mutators eks. String)
+        \begin{itemize}
+            \item Husk at klone før returnering
+        \end{itemize}
+        \item \textbf{Visibility modifiers}
+        \begin{itemize}
+            \item En gang public, altid public\footnote{Når en metode har været public kan den aldrig laves protected eller private. Hvis andre afhænger af denne metode kan ændringen ødelægge deres programmer.}
+            \item Ingen public feltvariable! Dette vil resultere i klassen aldrig kan ændre sin interne repræsentation. Benyt altid getters og setters.
+        \end{itemize}
+    \end{itemize}
+    
+    \item \textbf{Kloning}
+    \begin{itemize}
+        \item Deep / Shallow (tegn og forklar på tavlen)
+    \end{itemize}
+    
+    \item \textbf{Programming by contract}
+    \begin{itemize}
+        \item Invarianter - Sand efter constructoren og sand efter enhver metode
+        \item Preconditions hos subklasser max lige så stærke som hos superklasse
+        \item Postcondions hos subklasser minimum lige så stærke som hos superklasse
+        \begin{itemize}
+            \item Pre- og post skal nemlig overholde Liskov’s substitution
+        \end{itemize}
+        
+        \item Throws definerer hvilke exceptions metoden kan smide (lav kodeeksempel)
+        \item Assertions (kan bruges til at tjekke pre- og postconditions)
+    \end{itemize}
+\end{itemize}

@@ -1,0 +1,29 @@
+\subsection{Dispositionsforslag 2}
+
+\begin{itemize}
+    \item hvad er exceptions og hvad bruges de til
+    \item hvad ville man gøre uden exceptions\footnote{I sproget C returnerer de fleste metoder en værdi der fortæller om kaldet gik godt eller skidt. For systemkald repræsenterer en negativ returværdi oftest at noget er gået galt.} (sproget C har ingen exceptions)
+    \item \textbf{2 typer exceptions} (checked og unchecked)
+    \begin{itemize}
+        \item Tegn exceptions klassehierarki (Throwable, Exception, RuntimeException, Error)
+        \item Egne exceptions (Hvilken klasse skal nedarves fra)
+        \item Try / catch / finally (husk finally køres ALTID, og bruges ofte til cleanup)
+        \item Throws keyword
+    \end{itemize}
+    
+    \item \textbf{Fil håndtering}
+    \begin{itemize}
+        \item Meget kan gå galt
+        \item Eksempler (Filen eksisterer ikke, ingen adgang til filen)
+        \item Relater evt. til aflevering om filhåndtering
+    \end{itemize}
+    
+    \item \textbf{Defensive programming}
+    \begin{itemize}
+        \item Minimerer antallet af fejl
+        \item Tager højde for alt (især brugerinput)
+        \item Brugeren er ond
+        \item Programmør fejl
+        \item Sørg for at programmet ikke crasher
+    \end{itemize}
+\end{itemize}

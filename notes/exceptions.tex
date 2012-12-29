@@ -1,0 +1,122 @@
+\section{Exceptions \& Files}
+
+Exceptions er en smart måde at håndtere programfejl på. Brug af exceptions betyder, at man kan undgå situationer hvor return-values for metodekald skal valideres på alle mulige måder, fx \verb|if (value == -1)| eller \verb|if (value != null)|. Klienter kan samtidig tvinges til at tage handling, hvis der sker fejl.
+
+\subsection{Defensive programming}
+\begin{itemize}
+  \item Gå ud fra, at programmet bliver afviklet i et fjendtligt miljø med egentlige fjender, men også inkompetente brugere.
+  \item Check gyldighed af inputs, return-values, etc.
+\end{itemize}
+
+\subsection{Hvis man ikke har exceptions?}
+\begin{itemize}
+  \item Return-values som fungerer som "fejl"-values (fx -1, null)
+  \item Kræver mange if-else-statements, som gør, at det bliver mere  overskueligt og kompliceret at separere fejlhåndteringskode fra andet kode.
+  \item Ingen måde at tvinge "klienter" til at checke om returværdier er gyldige eller ej, så der er en uheldig risiko for, at programmet dermed fortsætter afvikling med ugyldige værdier, som ødelægger andre resultater - eller at programmet crasher.
+\end{itemize}
+
+\subsection{Throwable hierakiet}
+\begin{itemize}
+  \item Unchecked exceptions (Throwable $\leftarrow$ Exception $\leftarrow$ RuntimeException)
+  \begin{itemize}
+    \item Compileren kræver ikke, at unchecked exceptions håndteres, men man kan stadig håndtere dem (try-catch-blok) hvis man vil, på samme måde som med checked exceptions.
+    \item Bruges til situationer hvor et program kan fejle som resultat af inkompetente programmører på den ene eller anden måde, fx hvis en metode bliver bedt om at hente data fra plads "-1" i et array. Dette er en logisk fejl, som sikkert kunne undgås vha. nogle checks.
+    \item Fx NullPointerException, IllegalArgumentException
+  \end{itemize}
+  \item Checked exceptions (Throwable $\leftarrow$ Exception)
+  \begin{itemize}
+    \item Compileren kræver håndtering af checked exceptions (try-catch-blok)
+    \item Bruges til situationer hvor et program kan fejle som resultat af noget, som programmøren ikke har kontrol over - fx hvis man forsøger at skrive en fil til en disk som er fuld.
+    \item Fx IOException, FileNotFoundException
+  \end{itemize}
+\end{itemize}
+
+\subsection{Exception handling}
+\begin{itemize}
+  \item For at kaste exceptions bruges \verb|throw|.
+  \begin{itemize}
+    \item Fx \verb|throw new IOException()|
+    \item Metoder, som kaster checked exceptions skal i metode-signaturen indeholde \verb|throws| (bemærk s'et) efterfulgt af hvilke typer exceptions som kastes.
+    \item Fx \verb|public void addFile(String filename) throws IOException|
+    \item Metoder som kun kaster unchecked exceptions behøver ingen \verb|throws| i signaturen, men der er ingen regler imod det.
+    \item Metoder kan "kaste exceptions videre" (propagate an exception). For checked exceptions skal metoderne have \verb|throws| i deres signatur, også selvom det ikke er metoden selv som kaster en exception (det kunne være et kald til en anden metode, som netop kaster exceptions).
+    \item For unchecked exceptions kan \verb|throws| udelades.
+  \end{itemize}
+  \item Exceptions håndteres ved at "beskytte" kode, som kan kaste exceptions, med en try-blok, efterfulgt af en catch-blok, som "fanger" den type exceptions der kan blive kastet fra try-blokken.
+  \begin{itemize}
+    \item
+      \begin{verbatim}
+try {
+    writeToFile(file);
+} catch (IOException e) {
+    System.out.println("Unable to save to " + file);
+}
+      \end{verbatim}
+    \item Catch efterfølges af en parentes indeholdende den type af exception som der ønskes håndteret i den efterfølgende blok. Man kan have flere catch-blokke efter en try-blok, så man kan specificere hvilken type fejl programmet har lavet.
+    \item \verb|catch (Exception e)| vil fange ALLE exceptions, da alle exceptions er subtyper til Exception (polymorfi).
+    \item Det kræves, at en catch-blok følgende en anden catch-blok ikke fanger exceptions som er supertyper til de exceptions som fanges i ovenstående catch-blokke. Dvs. \verb|catch (Exception e)| må altså ikke komme før \verb|catch (IOException)|.
+  \end{itemize}
+  \item try-catch-blokke kan følges af en valgfri \verb|finally| blok.
+  \begin{itemize}
+    \item finally-blokken udføres uanset om der kastes en exception eller ej. Den er ofte udeladt, men kan bruges til "oprydningsarbejde".
+    \item Den er ikke redundant da den også køres selvom der fx er et return-statement i try-blokken. Desuden køres den også selvom en kastet exception ikke bliver fanget af catch-blokken.
+  \end{itemize}
+\end{itemize}
+
+\subsection{Error recovery and avoidance}
+\begin{itemize}
+  \item Man kan indkapsle try-catch-blokken i et loop, hvor man laver en slags "retry" ved at modificere elementer i catch-blokken.
+  \item Fx hvis man forsøger at læse en fil som ikke eksisterer, kan man i catch-blokken ændre på filnavnet eller prøve at kigge i nærliggende mapper, inkrementere en \verb|attempts| integer \verb|MAX_ATTEMPTS| gange, og så lade try-blokken køre igen.
+  \item Man kan forsøge at undgå exceptions og errors ved at lave relevante checks på return-values, før man blindt benytter dem.
+  \item Typisk check \verb|if (value != null)|
+\end{itemize}
+
+\subsection{File handling}
+\begin{itemize}
+  \item Exceptions er meget relevante for filhåndtering, da der er mange tilfælde hvor programmøren ingen kontrol har over det miljø filerne befinder sig i.
+  \begin{itemize}
+    \item Typiske filhåndteringsproblemer:
+    \begin{itemize}
+      \item Åbne ikke-eksisterende filer.
+      \item Åbne filer som er i brug.
+      \item Skrive filer til en fuld harddisk.
+    \end{itemize}
+  \end{itemize}
+  \item \verb|java.io| bibliotek til filhåndtering
+  \begin{itemize}
+    \item To typer filer
+    \begin{itemize}
+      \item Tekstfiler: filer bestående af læselige bogstaver. Håndteres med readers/writers: FileReader, BufferedReader, FileWriter
+      \item Binary filer: filer bestående af byte-sekvenser. Håndteres med streams: FileInputStream, FileOutputStream
+    \end{itemize}  
+    \item Filen åbnes, data læses/skrives, filen lukkes.
+    \begin{itemize}
+      \item Til skrivning af tekstfiler benyttes FileWriter.
+        \begin{verbatim}
+    FileWriter writer = new FileWriter(file);
+    writer.write(text);
+    writer.close();
+        \end{verbatim}
+      \item Til læsning af tekstfiler wrappes FileReader objekter ofte i BufferedReaders, da FileReader ikke kan læse hele linjer ad gangen.
+        \begin{verbatim}
+    FileReader fr = new FileReader(file);
+    BufferedReader reader = new BufferedReader(fr);
+    reader.readLine();
+    reader.close();
+        \end{verbatim}
+    \end{itemize}
+    \item Omringes af try-catch-blok, hvori bl.a. IOExceptions fanges.
+    \item Scanner
+    \begin{itemize}
+      \item Kan læse input fra terminalen
+      \item Kan også læse input fra tekstfiler og finde betydningsfulde dele af inputtet vha. dens "parsing" metoder, fx \verb|nextInt()|.
+    \end{itemize}
+  \end{itemize}
+  \item Serialization
+  \begin{itemize}
+    \item Hvis en klasse implementerer interfacet Serializable kan et objekt af klassen gemmes som en binær fil i én write operation (ObjectOutputStream)
+    \item Objektet kan ligeledes indlæses igen (ObjectInputStream)
+    \item Hvis dele af klassens tilstand ikke er Serializable (fx hvis man har en feltvariabel som er et HashMap) kan de markeres så de skippes af processen vha. Javas \verb|transient| keyword. Ellers kastes en exception.
+  \end{itemize}
+\end{itemize}
+

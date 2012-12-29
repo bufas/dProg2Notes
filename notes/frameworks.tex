@@ -1,0 +1,69 @@
+\section{Frameworks \& Collections}
+
+Frameworks er en samling af klasser som alle arbejder sammen og er relevante for et bestemt emne. Fx er Swing et framework, og dets klasser benyttes alle til at lave GUI’er med. Et andet framework er Applet, som bruges til at lave Java applets med, så de kan køres i web browsers.
+
+
+\subsection{Frameworks og libraries}
+
+\begin{itemize}
+  \item Frameworks adskiller sig fra normale program libraries på forskellige måder
+  \begin{itemize}
+    \item Inversion of control - I modsætning til almindelige libraries fungerer det meste af execution flowet for et framework i selve framework klasserne. Dvs. frameworkets metoder kan overrides, men det er frameworket som sørger for at kalde dem. Dette fænomen kaldes også Hollywood-princippet: “Don’t call us, we call you.”
+    \item Extensibility - Brugere kan benytte frameworkets default behaviour eller override og specialisere dets metoder.
+    \item Niks pille - Frameworkets kode må generelt ikke ændres. Brugere er nødt til at extende og override for at specialisere funktionalitet.
+  \end{itemize}
+
+  \item Frameworks er ikke design patterns, og der er ingen egentlige design regler for hvordan frameworks skal se ud - de består udelukkende af et sæt klasser, som udgør en slags generel service for en bestemt type program, og de benytter typisk mange forskellige design patterns.
+\end{itemize}
+
+\subsection{Applets}
+
+\begin{itemize}
+  \item Applets er programmer som afvikles i web browsers. java.applet er et framework, som bruges til lige netop det formål.
+  \item I de fleste selvstændige programmer er der en main metode, som er det første der bliver kørt når programmet starter. I Applet-frameworket er denne metode allerede defineret, og programmer som extender Applet, skal bare override nogle eller alle af følgende metoder:
+  \begin{itemize}
+    \item init - Kaldes én gang, lige når appletten loades.
+    \item start - Kaldes når appletten startes (efter init)
+    \item stop - Kaldes når appletten eller browseren lukkes
+    \item destroy - Kaldes når browseren lukkes for at frigive resourcer
+    \item paint - Kaldes når appletten skal repaintes (ofte).
+  \end{itemize}
+
+  \item Framework karakteristika for applets:
+  \begin{itemize}
+    \item Applet-programmøren extender Applet frameworket (inheritance)
+    \item Applet-klassen sørger for alle de trivielle ting, som at parse parametre og checke hvornår appletten er synlig og sådan. Applet-programmøren overrider bare metoder som ønskes specialiseret.
+    \item Inversion of control gør, at programmøren ikke bekymres med hvornår og hvordan metoderne skal afvikles. Det sørger frameworket for.
+  \end{itemize}
+\end{itemize}
+
+\subsection{Collections}
+
+\begin{itemize}
+  \item Collections er både en samling af almene datastrukturer og et framework for nye collection klasser. Frameworket indeholder nogle forskellige interfaces, fx:
+  \begin{itemize}
+    \item \textbf{Collection} - Det mest generelle collection interface
+    \item \textbf{Set} - En usorteret collection some ikke tillader duplicates
+    \item \textbf{SortedSet} - En sorteret collection som ikke tillader duplicates. Elementerne sorteres vha. Comparable eller Comparator
+    \item \textbf{List} - En ordnet collection der kan indeholde duplikater
+  \end{itemize}
+
+  \item Frameworket tilbyder desuden konkrete klasser som implementerer disse interfaces. Nogle af de vigtigste er:
+  \begin{itemize}
+    \item \textbf{HashSet} - Et set som bruger hashing/hash codes til at finde dets elementer
+    \item \textbf{ArrayList} - En liste som internt er baseret på arrays. ArrayLists er gode, hvis man ønsker hurtig “random access” i listen, da dens “lookups” fungerer som i arrays. Til gengæld er ArrayList langsom til at tilføje og fjerne elementer, da der ved disse operationer laves en kopi af det nuværende array, plus/minus ét element.
+    \item \textbf{LinkedList} - En liste som ikke er baseret på arrays. LinkedLists er gode hvis man ønsker hurtige add/remove metoder, men deres “lookups” er meget langsomme sammenlignet med ArrayLists, da LinkedLists altid gennemløbes fra start til det index man søger.
+  \end{itemize}
+
+  \item AbstractCollection er en abstrakt klasse, som implementerer Collection interfacet, og definerer alle metoderne, undtagen \verb iterator() og \verb size(). Metoder som \verb toArray() bruger netop \verb iterator() og \verb size(), hvilket vidner om Template Method designmønstret.
+  \begin{itemize}
+    \item AbstractCollection efterlader kun følgende to metoder til subclasses:
+    \begin{itemize}
+      \item \verb|int size()|
+      \item \verb|Iterator<E> iterator()|
+    \end{itemize}
+    
+    \item De fleste konkrete collection classes som extender AbstractCollection overrider dog \verb add() metoden, da AbstractCollection’s version er en dummy udgave som bare kaster en UnsupportedOperationException, hvilket giver mening for collections som skal være immutable.
+  \end{itemize}
+\end{itemize}
+

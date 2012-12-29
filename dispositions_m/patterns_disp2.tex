@@ -1,0 +1,31 @@
+\subsection{Dispositionsforslag 2}
+
+Det vigtige i dette emne er at du vælger så få at du har tid til at gå i dybden med dem alle, men ikke det er også vigtigt at du kan fylde tiden ud. Hellere have forberedt et pattern for meget end et for lidt. \\
+For hvert pattern skal der være styr på UML diagrammet og hvilket problem det løser. Derudover ville det også være fint at kunne give et eksempel på brug.
+
+\begin{itemize}
+    \item \textbf{Composite}
+    \begin{itemize}
+        \item mønstret realiserer at en samling af objekter kan håndteres som et enkelt objekt. (Eks. en dagligvare og en indkøbspose med varer)
+    \end{itemize}
+    
+    \item \textbf{Adapter}
+    \begin{itemize}
+        \item et objekt skal bruges af en klasse uden at der ændres på objektet. Objektet implementerer ikke det rigtige interface og skal adaptes til det rigtige interface.
+        \item En adapter-klasse oprettes som implementerer det rigtige interface og bruger objektets metoder til at realisere de nye metoder
+    \end{itemize}
+    
+    \item \textbf{Template Method}
+    \begin{itemize}
+        \item Relater til frameworks og nævn prototype pattern
+        \item Hvad: en klasse der kalder primitive metoder på subklasser af et interface og kombinerer disse til en kompleks metode.
+        \item Hvornår: en algoritme bruges i flere klasser. Algoritmen kan brydes ned til mindre dele. Delalgoritmerne defineres i klasserne. En superklasse kalder de primitive algoritmer i en rækkefølge så det danner den komplekse algoritme. Algoritmen er nu samlet et sted.
+    \end{itemize}
+    
+    \item \textbf{Proxy}
+    \begin{itemize}
+        \item Hvad: en “stand-in” klasse for det oprindelige subjekt. Har samme metoder, dog med nogle modifikationer der gør den fordelagtig.
+        \item Hvordan: en proxyklasse implementerer samme interface som det oprindelige subjekt. Proxyen kalder metoderne på subjektet.
+    \end{itemize}
+    
+\end{itemize}

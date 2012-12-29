@@ -1,0 +1,48 @@
+\subsection{Dispositionsforslag 2}
+
+\begin{itemize}
+    \item \textbf{Framework vs program library}
+    \begin{itemize}
+        \item Hollywood princippet “Don’t call us, we call you”
+        \item hot spots / frozen spots
+        \item Eks. RPG spil eller applets\footnote{Det vigtige her er at du har styr på dit eksempel og føler dig sikker på at tale om det.}
+        \begin{itemize}
+            \item Extend applet med metoderne (init(), start(), stop() og paint()) frameworket kalder selv disse metoder. Appletklassen er altså et hot spot.
+        \end{itemize}
+    \end{itemize}
+    
+    \item \textbf{Prototyper (PROTOTYPE pattern)}
+    \begin{itemize}
+        \item Frameworket skal kunne kalde brugerens klasser
+        \item Laver nye objekter ved at klone en prototype
+    \end{itemize}
+    
+    \item \textbf{Collections framework}
+    \begin{itemize}
+        \item sort / shuffle / min / max
+        \item Collection interface (hot spot) (generisk)
+        \begin{itemize}
+            \item set (ingen dupletter) vs. list (elementers rækkefølge er bibeholdt)
+            \item Benyt muligvis muligheden for at tale om generiske klasser
+        \end{itemize}
+
+        \item AbstractCollection\textless E\textgreater
+        \begin{itemize}
+            \item Opret nye collections ud fra denne klasse der implementerer de fleste metoder
+            \item \textbf{TEMPLATE METHOD pattern} (vær klar på at give specifikt ekesmpel)
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+
+

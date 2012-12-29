@@ -1,0 +1,65 @@
+\subsection{Dispositionsforslag 2}
+
+\begin{itemize}
+    \item \textbf{Interfaces}
+    \begin{itemize}
+        \item Programmør behøver ikke kende egentlige klasser (jvf. Frameworks)
+        \item Kan implementere mange interfaces modsat nedarvning
+        \item Visibility modifiers (public, protected, private)
+        \begin{itemize}
+            \item private - Bruges som regel til hjælpemetoder
+            \item public - Bruges til metoder der skal kunne kaldes af andre
+            \item protected - Kan kun kaldes af subklasser og klassen selv
+        \end{itemize}
+
+        \item Kan ikke instantieres (kan kun bruges som statisk type)
+    \end{itemize}
+    
+    \item \textbf{Nedarvning}
+    \begin{itemize}
+        \item “arve” metoder fra superklassen
+        \item super keyword
+        \item Kan kun nedarve fra én klasse
+        \item Regler ved nedarvning
+        \begin{itemize}
+            \item "is-a relationen" (\textless subtype\textgreater is a \textless supertype\textgreater)
+            \item Liskov substitution\footnote{Husk at Barbara Liskov er en kvinde} (en subklasse kan altid indsættes i stedet for en superklasse)
+            \item Eksempel der overholder Liskov substitution
+            \begin{itemize}
+                \item Både is-a og Liskov glæder (Crab extends Animal (fra dIntProg) eller JonglerendeKlovn extends Klovn)
+                \item Kun is-a gælder (Square extends Rectangle\footnote{Da square er mere restriktiv end rectangle})
+            \end{itemize}
+            
+            \item Preconditions (maks lige så stærke)
+            \item Postconditions (mindst lige så stærke)
+        \end{itemize}
+        
+        \item Centralisering af kode ved at flytte det op i supertype (referer til aflevering om BankAccount)
+    \end{itemize}
+    
+    \item \textbf{Polymorfi}
+    \begin{itemize}
+        \item Flere metoder med samme navn
+        \begin{itemize}
+            \item typesystemet sørger for korrekt kald
+            \item dynamisk/statisk type
+            \item Hvis man skal modellere cirkusartister har man “Linedanser” og “KanonKonge”. Programmøren ved ikke hvilken rækkefølge artisterne skal på scenen så et interface “Artist” benyttes. Interfacet har metoderne \verb udfør_nummer() og \verb buk(). Begge klasserne implementerer interfacet og programmøren kan nu håndtere forskellige artister som var de ens. Typesystemet i Java sørger for at metoden bliver kaldt på den rigtige klasse. \\
+            Altså \verb artist.udfør_nummer() er forskellig alt efter om artist er af typen Linedanser eller KanonKonge. Altså metoden der bliver udført afhænger af den dynamiske type.
+        \end{itemize}
+        
+        \item Det giver bedre muligheder for udvidelse
+        \begin{itemize}
+            \item Hvis der skal bruges en ny type artist kan denne blot tilføjes uden videre. Typesystemet sørger for at den korrekte metodeimplementation bliver kaldt.
+        \end{itemize}
+    \end{itemize}
+    
+    \item \textbf{TEMPLATE METHOD pattern}
+    \begin{itemize}
+        \item Eks. Gå over vejen (menneske og hund)
+        \begin{itemize}
+            \item primitive metoder (kig() og gå())
+            \item Da hunden har 4 ben går den anderledes end mennesket
+            \item Den kigger sig nok heller ikke så godt for
+        \end{itemize}
+    \end{itemize}
+\end{itemize}

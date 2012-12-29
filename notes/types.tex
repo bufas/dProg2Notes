@@ -1,0 +1,152 @@
+\section{The Java Type System and Object Model}
+
+\subsection{Typer og værdier}
+
+\begin{itemize}
+  \item Alle typer i Java er én af følgende:
+  \begin{itemize}
+    \item Primitive typer: int short long byte char float double boolean
+    \item Klassetyper, fx String, Rectangle
+    \item Interfacetyper, fx Comparable, Shape
+    \item Arraytyper, fx String[], int[], char[]. En arraytypes elementer kaldes arrayets “component type”.
+    \item Null-typen, null
+  \end{itemize}
+
+  \item Alle values i Java er én af følgende:
+  \begin{itemize}
+    \item En værdi til en primitiv type, fx 13, 5.0, ‘k’
+    \item En reference til et objekt af en klasse, fx new String(“Hest”)
+    \item En reference til et array, fx new int[] {2, 3, 5, 7, 11, 13}
+    \item null
+    \item Man kan ikke have værdier til interface-typer, da de ikke kan instantieres.
+  \end{itemize}
+\end{itemize}
+
+\subsection{Subtype-forhold}
+
+\begin{itemize}
+  \item Subtype-forholdet i Java følger Liskov’s substitutionsprincip om, at subtyper kan benyttes hvor supertyper forventes. Vi betragter to typer, S og T. S er en subtype til typen T, hvis én af følgende regler passer:
+  \begin{itemize}
+    \item S og T er samme type
+    \item S og T er begge klassetyper, og S er en direkte eller indirekte subclass til T
+    \item S og T er begge interface-typer, og S er direkte eller indirekte subinterface til T
+    \item S er en klassetype, T er en interface-type, og S eller en superclass til S implementerer T eller et subinterface til T
+    \item S og T er arraytyper, og component-typen til S er en subtype til component-typen til T
+    \item S er ikke en primitiv type, og T er Object
+    \item S er en arraytype, og T er Cloneable eller Serializable
+    \item S er null og T er ikke en primitiv type
+  \end{itemize}
+
+  \item Ved subtype-forhold mellem to arraytyper kan man “trække array brackets fra” begge arrays indtil én eller begge typer ingen brackets har.
+  \begin{itemize}
+    \item \verb Object[] og \verb int[], træk brackets fra på begge arrays, \verb Object og \verb int, og da \verb int er en primitiv type er den ikke en subtype til \verb Object, og dermed er \verb int[] ikke en subtype til \verb Object[] og omvendt. \verb int[] er dog en subtype til \verb Object, så \verb int[][] er en subtype til \verb Object[].
+  \end{itemize}
+  
+  \item Compiler checker kun formelle typer, hvilket vil sige, at selv om man fodrer en subtype til en supertype (Manager i Employee variabel, Liskov substitution), kan man kun kalde supertypens metoder, fordi compileren altid kun kigger på formelle typer.
+  \begin{itemize}
+    \item Typecasting betyder at man omdanner et objekts statiske/formelle type til en anden type, fx
+    \begin{verbatim}
+      Employee e = new Manager();
+	  e.getBonus()	              // COMPILE ERROR!
+	  ((Manager)e).getBonus()     // OK!
+    \end{verbatim}
+    \item Primitive typer kan også typecastes, men der er nogle bestemte termer i den forbindelse:
+    \begin{itemize}
+      \item Widening, når man fx caster en int til en double. (\verb|2 -> 2.0|)
+    Sker automatisk! Fx double \verb|x = 2 -> x = 2.0|
+      \item Narrowing, når man fx caster en double til en int. (\verb|2.5 -> 2|)
+    Kræver typecast! Fx \verb|int y = (int) 5.2 -> y = 5|
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+
+\subsection{Wrappers (aka. Snoop Dogg)}
+
+\begin{itemize}
+  \item De 8 primitive typer har tilhørende wrappers (klassetyper): Integer, Short, Long, Byte, Character, Float, Double, Boolean. De har altså samme navne som deres primitive modstykker, pånær Integer (int) og Character (char).
+  \item Wrapper-classes kan wrappe primitive typer i objekter, hvor det er nødvendigt. Fx hvis man skal have en ArrayList med ints. ArrayList kan ikke have primitive typer.
+  \item Auto-boxing er den automatiske konvertering mellem primitive typer og wrapper objekter. Dette gør at man ganske enkelt kan tilføje int-værdier til ArrayLists af Integers, uden at skulle konvertere manuelt først.
+\end{itemize}
+
+\subsection{Enum}
+
+\begin{itemize}
+  \item Enumerated types er typer med et endeligt sæt værdier. Eksempler på enum typer er Suit med fire værdier: SPADE, CLUB, HEART, DIAMOND, eller Size, som fx kunne have værdierne: SMALL, MEDIUM, LARGE.
+  \item Keywordet enum definerer en class med en private constructor (nye objekter kan ikke laves fra den) med nogle fields tagged som \verb|public static final|. Det er forsvarligt at lade dem være public, idét klassen ingen metoder har, og dens fields er alle final.
+\end{itemize}
+
+\subsection{Type inquiry}
+
+\begin{itemize}
+  \item Man kan teste om et objekt eller en expression er en reference til et objekt af en bestemt type, eller én af dens subtyper med instanceof operatoren.
+  \begin{itemize}
+    \item \verb|if (e instanceof Shape)|
+  \end{itemize}
+
+  \item Man kan finde et objekts klasse med getClass() metoden. Den returnerer et Class objekt. Dette objekt indeholder en masse information om det objekt, metoden blev kaldt på. Fx navnet på den klasse objektet tilhører, eller klassens eventuelle superclass.
+  \begin{itemize}
+    \item Med getName() kaldt på et Class objekt kan man få det præcise klassenavn for et objekt.
+    \item Class objekter kan beskrive enhver type, også primitive typer.
+  \end{itemize}
+
+  \item Vil man teste om et objekt tilhører en bestemt class, kan man kalde \verb|getClass()| på objektet og sammenligne med den bestemte class således:
+  \begin{itemize}
+    \item \verb|if (e.getClass() == Rectangle.class)|
+  \end{itemize}
+
+  \item Type inquiry bør ikke bruges som en erstatning for polymorfi.
+\end{itemize}
+
+\subsection{The Object class - mother of all classes}
+
+\begin{itemize}
+  \item Alle Java-classes er subclasses til Object. Hvis en class ikke extender nogle andre classes er den en direkte subclass til Object. Derfor er alle metoder i Object tilgængelige for alle objekter. De fire vigtigste (som også altid bør overrides i custom classes) er:
+  \begin{itemize}
+    \item toString() som returnerer en String-repræsentation af objektet.
+    \begin{itemize}
+      \item Bruges automatisk af forskellige standard-metoder. Fx hvis man prøver at printe et objekt vha. \verb|System.out.println()|.
+    \end{itemize}
+    
+    \item equals() som sammenligner et objekt med et andet.
+    \begin{itemize}
+      \item Man kan nemt sammenligne to ints med hinanden som (\verb|x == y|), men bruger man == operatoren på objekter sammenlignes objekternes referencer.
+      \item Det ønskes ofte at to objekter betragtes som værende “ens”, hvis dele eller hele tilstande af objekter er ens. Fx kan to Beer-objekter betragtes som ens hvis deres name og percent fields er ens. \\
+    Hvis to lister indeholder de samme elementer i forskellige rækkefølger 	kan de også i nogle situationer betragtes som ens.
+      \item Den perfekte equals metode starter ifølge Horstmann således:
+      \begin{verbatim}
+        if (this == otherObject) return true;
+	    if (otherObject == null) return false;
+	    if (getClass() != otherObject.getClass()) return false;
+      \end{verbatim}
+      \item Metoden skal være reflexive (\verb|x.equals(x)|) og symmetrisk (\verb|x.equals(y)   <->   y.equals(x)|)
+    \end{itemize}
+    
+    \item hashCode() som returnerer en hash code for objektet.
+    \begin{itemize}
+      \item Hash codes skal være konsistente med equals metoden, så to objekter som “equals” hinanden genererer samme hash codes.
+    \end{itemize}
+    
+    \item clone() som returnerer en kopi/klon af objektet.
+    \begin{itemize}
+      \item Cloneable interface skal implementeres
+      \item Der skælnes mellem deep og shallow copies af objekter vha. clone metoden.
+      \item En shallow copy er en kopi, som ganske enkelt bare kopierer alle værdierne i originalens fields (\verb|orig.x = ? -> clone.x = orig.x|). Hvis disse værdier er objektreferencer (hvilket de er, hvis de ikke er primitive værdier), vil kopien nu dele objektreferencer med originalen, hvilket betyder at en ændren i kopiens værdier også ændrer på originalens værdier!
+      \item En deep copy er en kopi som er magen til originalen, men har sine egne field-værdier (\verb|orig.x = ? -> clone.x = new x|). Ændringer i kopien ændrer således ikke på originalen.
+      \item En “sufficiently deep copy” er en kopi som kun opretter nye objektreferencer til objekter som er mutérbare. String er immutérbare, så typiske name fields er ikke kritiske.
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+
+\subsection{Serialization}
+
+\begin{itemize}
+  \item Man kan gemme objekter som binære filer, hvis klassen objekterne tilhører implementerer \verb|Serializable| interfacet.
+\end{itemize}
+
+\subsection{Generic Types}
+
+\begin{itemize}
+  \item Generics er typer som har en eller flere type-variable, som betegnes med bogstavet E, fx \verb|ArrayList<E>| som altså instantieres med en ikke-primitiv type. Det kunne være \verb|ArrayList<Integer>| eller \verb|ArrayList<String>|. Metoderne i generic types arbejder med dette E, som altså ved instantiering er en egentlig type.
+\end{itemize}
+
+

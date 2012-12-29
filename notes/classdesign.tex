@@ -1,0 +1,84 @@
+\section{Class Design \& Invariants}
+
+En klasse er en samling af fields og metoder. Ofte bruges klasser som skabeloner, som objekter kan instantieres fra. Nogle klasser kan således betragtes som "blueprints", som man kan skabe objekter ud fra. Et velgennemtænkt og godt struktureret klassedesign er meget vigtigt for brugbarhed af klasser.
+
+\subsection{Klassestruktur}
+
+\begin{itemize}
+  \item Klasser indeholder typisk nogle fields, en eller flere constructors og en række metoder. Klassens fields udgør dens tilstand, og dens metoder udgør dens interface (klasse-interface).
+  \item Constructors sørger for at objekter instantieres fra klasser med nogle bestemte værdier for deres fields, dvs. en starttilstand.
+  \item Metoder er "funktioner" som kan kaldes på klassen selv (static), eller på individuelle objekter instantieret fra en klasse
+  \item Utility-klasse: En klasse med en private constructor (kan ikke instantieres), og udelukkende static metoder (fx Math, Collections).
+\end{itemize}
+
+\subsection{Indkapsling}
+
+\begin{itemize}
+  \item Visibility modifiers: public/private/protected
+  \begin{itemize}
+    \item Constructors er generelt public.
+    \item Metoder kan være begge dele. Ofte bruges private metoder som hjælpemetoder til public metoder. (Én gang public, altid public - gælder også for protected)
+    \item Fields bør altid være private, og objekters/klassers tilstande bør altid tilgås/manipuleres gennem public metoder.
+  \end{itemize}
+  
+  \item static
+  \begin{itemize}
+    \item Fields og metoder tagged som static er tilgængelige på klassen selv, og alle objekter instantieret fra klassen. Static fields deles mellem alle objekter af klassen.
+    \item Static metoder (kaldes på klassen) kan kun tilgå static fields.
+    \item Non-static metoder (kaldes på objekter) kan tilgå både static og non-static fields.
+  \end{itemize}
+  
+  \item Et objekts tilstand (dvs. fields) aflæses gennem "accessorer" (fx \verb|get()| metoder), og modificeres gennem "mutatorer" (fx \verb|set()| metoder).
+  \begin{itemize}
+    \item Objekters tilstande må aldrig modificeres af accessorer (da de så vil være mutatorer), men de må gerne aflæses af mutatorer, så længe der samtidig er en tilsvarende accessor-metode, som aflæser tilstandene uden at ændre på dem.
+    \item Scanner er et godt eksempel på dårlig stil: Ingen accessor (\verb|getCurrent()|), så hvis man skal bruge det “nuværende” element skal man efter kaldet til \verb|next()| gemme værdien/referencen i en lokal variabel, da \verb|next()| flytter cursoren ét element frem inden den returnerer et element.
+  \end{itemize}
+  
+  \item Et objekt er mutérbart, hvis dets fields kan manipuleres med enten via direkte adgang (public) eller gennem mutator-metoder. Omvendt kaldes det immutérbart, hvis det kun består af accessor-metoder (fx String), og således ikke kan ændres på, efter det er blevet skabt.
+  \begin{itemize}
+    \item Kun immutérbare objekter bør deles mellem andre objekter.
+    \item Mutérbare objekters indre tilstand kan ændres, hvis deres fields af reference-typer returneres direkte af \verb|get()| metoder (fx ArrayList, HashMap), da sådanne return-values returnerer objekt-referencen, fremfor blot at returnere en simpel værdi (som med primitive typer).
+    \item Hvis mutérbare objekter skal returneres i \verb|get()| metoder bør objekterne klones først vha. \verb|clone()|.
+    \item På samme måde bør constructors klone eventuelle mutérbare objekter, som de får som parametre.
+  \end{itemize}
+\end{itemize}
+
+\subsection{Cloning}
+
+\begin{itemize}
+  \item Deep/shallow clone.
+\end{itemize}
+  
+\subsection{Quality of class interfaces}
+
+\begin{itemize}
+  \item Cohesion: En klasse er "cohesive" eller sammenhængende, hvis dens metoder alle har at gøre med det samme overordnede emne. Fx en Mailbox-klasse som kun har metoder, som har at gøre med breve/beskeder.
+  \item Completeness: En klasse er "complete" eller fuldstændig, hvis den har metoder til ethvert tænkeligt formål indenfor dens scope. Fx Math-klassen, som har en stor mængde metoder til matematiske beregninger (dog ingen metoder til beregning af egentlige brøker, dvs. ikke helt complete).
+  \item Convenience: En klasse er "convenient" eller bekvem, hvis simple operationer og opgaver er nemme at løse. Et klasseinterface skal være nemt at bruge, så brugere ikke skal kalde 10 forskellige metoder for at få et simpelt resultat.
+  \item Clarity: En klasse er "clear" eller letforståelig, når der ikke kan opstå meget forvirring omkring dens interface. ListIterator's \verb|next()| og \verb|add()| metoder er meget analog til hvordan et tekstbehandlingsprogram virker, men dens \verb|remove()| metode er meget klodset. Dårlig clarity.
+  \item Consistency: En klasse er "consistent" hvis dens metoder ikke afviger i fx parameter-syntax. Fx tager Java's GregorianCalendar klasse et månednummer mellem 0 og 11, men et dagnummer mellem 1 og 31, i dens constructor, hvilket er meget fjollet.
+\end{itemize}
+
+\subsection{Programming by contract}
+
+\begin{itemize}
+  \item En måde at undgå tunge, performance-sænkende gyldighedschecks. Ved at opstille "kontrakter" for hvordan metoder må/skal benyttes kan man fralægge sig ethvert ansvar for effekterne af at kalde metoderne med ugyldige parametre (dvs. hvis preconditions ikke er opfyldt). Samtidig kan man garantere at metoden gør hvad den skal (postconditions), hvis preconditions er opfyldte.
+  \item Preconditions
+  \begin{itemize}
+    \item Skal være opfyldt for at metoden kan garantere en korrekt/gyldig kørsel.
+    \item For at gøre preconditions "fair" skal kalderen af metoden kunne checke om preconditionen er opfyldt eller ej, før den laver metodekaldet.
+    \item Man bør ikke kaste exceptions som resultat af uopfyldte preconditions; det er netop pointen med preconditions: "hvis ikke du opfylder disse krav, så garanterer jeg intet og du må sejle i din egen sø."
+  \end{itemize}
+  
+  \item Postconditions
+  \begin{itemize}
+    \item Skal være opfyldt når metoden er fuldført.
+  \end{itemize}
+  
+  \item Invarianter
+  \begin{itemize}
+    \item En måde at checke pre- og postconditions er ved at lave assertion-metoder, som checker et objekts fields' gyldighed.
+    \item Kaldes efter constructor og efter metoder, og bruges til debugging og compiler-checks.
+  \end{itemize}
+\end{itemize}
+

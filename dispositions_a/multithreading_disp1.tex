@@ -1,0 +1,30 @@
+\subsection{Dispositionsforslag 1}
+
+\begin{itemize}
+    \item \textbf{Tråde}
+    \begin{itemize}
+        \item Hvad er tråde? Hvad bruges de til?
+        \item Tråde i Java; \verb|implements Runnable| eller \verb|extends Thread|
+        \item UML diagram (Horstmann s. 364)
+    \end{itemize}
+    
+    \item \textbf{Tilstande}
+    \begin{itemize}
+        \item new, runnable, blocked, dead
+        \item interrupt()
+    \end{itemize}
+
+    \item \textbf{Race conditions}
+    \begin{itemize}
+        \item Deadlocks (og livelocks)
+        \item Queue eksempel; korruptering af data, tegn på tavlen
+        \item ReentrantLocks vs. object locks
+        \item \verb|wait()| og \verb|notify()|
+    \end{itemize}
+
+    \item \textbf{java.util.concurrent og BlockingQueue}
+    \begin{itemize}
+        \item Masser af færdige, brugbare klasser
+        \item Metoder som \verb|take()| blocker automatisk
+    \end{itemize}
+\end{itemize}

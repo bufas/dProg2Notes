@@ -1,0 +1,58 @@
+\subsection{Dispositionsforslag 2}
+
+\begin{itemize}
+    \item \textbf{Nedarvning}
+    \begin{itemize}
+        \item “arve” metoder fra superklassen
+        \item visibility modifiers
+        \item \textbf(super keyword)
+        \item Kan kun nedarve fra én klasse
+        \item Regler ved nedarvning
+        \begin{itemize}
+            \item "is-a relationen" (\textless subtype\textgreater is a \textless supertype\textgreater)
+            \item Liskov substitution\footnote{Husk at Barbara Liskov er en kvinde} (en subklasse kan altid indsættes i stedet for en superklasse)
+            \item Eksempel der overholder Liskov substitution
+            \begin{itemize}
+                \item Både is-a og Liskov glæder (Crab extends Animal (fra dIntProg) eller JonglerendeKlovn extends Klovn)
+                \item Kun is-a gælder (Square extends Rectangle\footnote{Da square er mere restriktiv end rectangle})
+            \end{itemize}
+            
+            \item Preconditions (maks lige så stærke)
+            \item Postconditions (mindst lige så stærke)
+        \end{itemize}
+        
+        \item Centralisering af kode ved at flytte det op i supertype (referer til aflevering om BankAccount)
+    \end{itemize}
+    
+    \item \textbf{Polymorfi}
+    \begin{itemize}
+        \item Flere metoder med samme navn
+        \begin{itemize}
+            \item typesystemet sørger for korrekt kald
+            \item dynamisk/statisk type
+        \end{itemize}
+        
+        \item Eksempel på polymorfi
+        \begin{itemize}
+            \item Artist a = new Klovn();
+        \end{itemize}
+    \end{itemize}
+
+    \item \textbf{Abstrakte klasser}
+    \begin{itemize}
+        \item Flere klasser har ens metoder
+        \item Centralisering af kode
+        \item tvinge subklasser til at implementere metoder
+    \end{itemize}
+    
+    \item \textbf{TEMPLATE METHOD pattern}
+    \begin{itemize}
+        \item Eks. Gå over vejen (menneske og hund)
+        \begin{itemize}
+            \item primitive metoder (kig() og gå())
+            \item Da hunden har 4 ben går den anderledes end mennesket
+            \item Den kigger sig nok heller ikke så godt for
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+
