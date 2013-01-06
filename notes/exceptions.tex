@@ -54,7 +54,7 @@ try {
       \end{verbatim}
     \item Catch efterfølges af en parentes indeholdende den type af exception som der ønskes håndteret i den efterfølgende blok. Man kan have flere catch-blokke efter en try-blok, så man kan specificere hvilken type fejl programmet har lavet.
     \item \verb|catch (Exception e)| vil fange ALLE exceptions, da alle exceptions er subtyper til Exception (polymorfi).
-    \item Det kræves, at en catch-blok følgende en anden catch-blok ikke fanger exceptions som er subtyper til de exceptions som fanges i ovenstående catch-blokke. Dvs. \verb|catch (Exception e)| må altså ikke komme før \verb|catch (IOException)|.
+    \item Det kræves, at en catch-blok, som følger en anden catch-blok, ikke fanger exceptions som er subtyper til de exceptions som fanges i ovenstående catch-blokke. Dvs. \verb|catch (Exception e)| må altså ikke komme før \verb|catch (IOException)|.
   \end{itemize}
   \item try-catch-blokke kan følges af en valgfri \verb|finally| blok.
   \begin{itemize}
