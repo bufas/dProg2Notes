@@ -67,7 +67,7 @@ Tråde er er programstykker som kan eksekveres parallelt med hinanden, dvs. "på
 \subsection{interrupt()}
 
 \begin{itemize}
-  \item Tråde kan afbrydes/stoppes med \verb interrupt()
+  \item Tråde kan afbrydes/stoppes med \verb|interrupt()| 
   \item sleep() og wait() kaster en InterruptedException, hvis interupt() kaldes på en "sovende tråd". Denne exception skal fanges, og man bør derfor omringe al koden i run() med en try-blok.
   \item Hvis tråden ikke er blocked vil interrupt() bare sætte trådens interrupted field til true. Dette field kan checkes med metoden isInterrupted().
   \item I tilfælde af I/O eller andet "beskidt" arbejde bør tråde altid have noget oprydningskode efter try-blokken.
