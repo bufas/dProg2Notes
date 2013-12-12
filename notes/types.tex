@@ -39,7 +39,7 @@
 
   \item Ved subtype-forhold mellem to arraytyper kan man “trække array brackets fra” begge arrays indtil én eller begge typer ingen brackets har.
   \begin{itemize}
-    \item \verb Object[] og \verb int[], træk brackets fra på begge arrays, \verb Object og \verb int, og da \verb int er en primitiv type er den ikke en subtype til \verb Object, og dermed er \verb int[] ikke en subtype til \verb Object[] og omvendt. \verb int[] er dog en subtype til \verb Object, så \verb int[][] er en subtype til \verb Object[].
+    \item \verb|Object[]| og \verb|int[]|, træk brackets fra på begge arrays, \verb|Object| og \verb|int|, og da \verb|int| er en primitiv type er den ikke en subtype til \verb|Object|, og dermed er \verb|int[]| ikke en subtype til \verb|Object[]| og omvendt. \verb|int[]| er dog en subtype til \verb|Object|, så \verb|int[][]| er en subtype til \verb|Object[]|.
   \end{itemize}
   
   \item Compiler checker kun formelle typer, hvilket vil sige, at selv om man fodrer en subtype til en supertype (Manager i Employee variabel, Liskov substitution), kan man kun kalde supertypens metoder, fordi compileren altid kun kigger på formelle typer.
